@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,6 +47,7 @@ public class WaveConfigSO : ScriptableObject
     {
         float spawnTime = Random.Range(timeBetweenEnemySpawns - spawnTimeVariance,
             timeBetweenEnemySpawns + spawnTimeVariance);
+        // Don't allow numbers to go negative
         return Mathf.Clamp(spawnTime, minimumSpawnTime, float.MaxValue);
     }
 }

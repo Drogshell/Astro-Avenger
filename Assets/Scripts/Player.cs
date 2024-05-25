@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,10 +9,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float paddingTop;
     [SerializeField] private float paddingRight;
     [SerializeField] private float paddingBottom;
+
+    private Shooter _shooter;
     
     private Vector2 rawInput;
     private Vector2 minBounds;
     private Vector2 maxBounds;
+
+    private void Awake()
+    {
+        _shooter = GetComponent<Shooter>();
+    }
 
     private void Start()
     {
@@ -46,6 +50,13 @@ public class Player : MonoBehaviour
     private void OnMove(InputValue value)
     {
         rawInput = value.Get<Vector2>();
-        Debug.Log(rawInput);
+    }
+
+    private void OnFire(InputValue value)
+    {
+        if (_shooter != null)
+        {
+            _shooter.isFiring = value.isPressed;
+        }
     }
 }
