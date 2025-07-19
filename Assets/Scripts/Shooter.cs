@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Shooter : MonoBehaviour
 {
@@ -15,9 +17,16 @@ public class Shooter : MonoBehaviour
     [SerializeField] private bool useAI;
 
     private Coroutine _firingCoroutine;
+    private AudioPlayer _audioPlayer;
         
     [HideInInspector] public bool isFiring;
-    void Start()
+
+    private void Awake()
+    {
+        _audioPlayer = FindObjectOfType<AudioPlayer>();
+    }
+
+    private void Start()
     {
         if (useAI)
         {
@@ -25,7 +34,7 @@ public class Shooter : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         Fire();
     }
@@ -59,6 +68,7 @@ public class Shooter : MonoBehaviour
                 Random.Range(baseFiringRate - firingRateVariance, baseFiringRate + firingRateVariance);
             // Don't allow numbers to go negative
             timeToNextProjectile = Mathf.Clamp(timeToNextProjectile, minimumFiringRate, float.MaxValue);
+            _audioPlayer.PlayShootingClip();
             yield return new WaitForSeconds(timeToNextProjectile);
         }
     }
