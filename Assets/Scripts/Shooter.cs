@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -41,14 +40,15 @@ public class Shooter : MonoBehaviour
 
     private void Fire()
     {
-        if (isFiring && _firingCoroutine == null)
+        switch (isFiring)
         {
-            _firingCoroutine = StartCoroutine(FireContinuously());
-        }
-        else if (!isFiring && _firingCoroutine != null)
-        {
-            StopCoroutine(_firingCoroutine);
-            _firingCoroutine = null;
+            case true when _firingCoroutine == null:
+                _firingCoroutine = StartCoroutine(FireContinuously());
+                break;
+            case false when _firingCoroutine != null:
+                StopCoroutine(_firingCoroutine);
+                _firingCoroutine = null;
+                break;
         }
     }
 
@@ -56,15 +56,15 @@ public class Shooter : MonoBehaviour
     {
         while (true)
         {
-            GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
+            var instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            var rb = instance.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
                 rb.velocity = transform.up * projectileSpeed;
             }
             Destroy(instance, projectileLifetime);
 
-            float timeToNextProjectile =
+            var timeToNextProjectile =
                 Random.Range(baseFiringRate - firingRateVariance, baseFiringRate + firingRateVariance);
             // Don't allow numbers to go negative
             timeToNextProjectile = Mathf.Clamp(timeToNextProjectile, minimumFiringRate, float.MaxValue);

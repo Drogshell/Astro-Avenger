@@ -13,14 +13,14 @@ public class PathFinder : MonoBehaviour
         _enemySpawner = FindObjectOfType<EnemySpawner>();
     }
 
-    void Start()
+    private void Start()
     {
         _waveConfig = _enemySpawner.GetCurrentWave();
         _wayPoints = _waveConfig.GetWaypoints();
         transform.position = _wayPoints[_wayPointIndex].position;
     }
 
-    void Update()
+    private void Update()
     {
         FollowPath();
     }
@@ -31,7 +31,7 @@ public class PathFinder : MonoBehaviour
         if (_wayPointIndex < _wayPoints.Count)
         {
             Vector2 targetPosition = _wayPoints[_wayPointIndex].position;
-            float delta = _waveConfig.GetMoveSpeed() * Time.deltaTime;
+            var delta = _waveConfig.GetMoveSpeed() * Time.deltaTime;
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, delta);
             if (transform.position.Equals(targetPosition))
             {

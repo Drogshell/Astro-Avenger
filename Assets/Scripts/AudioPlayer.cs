@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
@@ -12,6 +10,8 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] private AudioClip damageClip;
     [SerializeField] [Range(0f, 1f)] private float damageVolume;
 
+    private static AudioPlayer _instance;
+    
     public void PlayShootingClip()
     {
         PlayClip(shootingClip, shootingVolume);
@@ -21,13 +21,33 @@ public class AudioPlayer : MonoBehaviour
     {
         PlayClip(damageClip, damageVolume);
     }
+    
+    private void Awake()
+    {
+        ManageSingleton();
+    }
+
+    private void ManageSingleton()
+    {
+        if (_instance != null)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        
+    }
+    
 
     private void PlayClip(AudioClip clip, float volume)
     {
-        if (clip != null)
-        {
-            Vector3 camPos = Camera.main.transform.position;
-            AudioSource.PlayClipAtPoint(clip, camPos, volume);
-        }
+        if (clip == null) return;
+        
+        Vector3 camPos = Camera.main.transform.position;
+        AudioSource.PlayClipAtPoint(clip, camPos, volume);
     }
 }

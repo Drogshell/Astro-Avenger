@@ -19,7 +19,7 @@ public class WaveConfigSO : ScriptableObject
 
     public List<Transform> GetWaypoints()
     {
-        List<Transform> waypoints = new List<Transform>();
+        var waypoints = new List<Transform>();
         foreach (Transform child in pathPrefab)
         {
             waypoints.Add(child);
@@ -45,7 +45,7 @@ public class WaveConfigSO : ScriptableObject
 
     public float GetRandomSpawnTime()
     {
-        float spawnTime = Random.Range(timeBetweenEnemySpawns - spawnTimeVariance,
+        var spawnTime = Random.Range(timeBetweenEnemySpawns - spawnTimeVariance,
             timeBetweenEnemySpawns + spawnTimeVariance);
         // Don't allow numbers to go negative
         return Mathf.Clamp(spawnTime, minimumSpawnTime, float.MaxValue);

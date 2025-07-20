@@ -1,13 +1,21 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private int loadDelay;
+    private ScoreKeeper _scoreKeeper;
+
+    private void Awake()
+    {
+        _scoreKeeper = FindObjectOfType<ScoreKeeper>();
+    }
+
     public void LoadGame()
     {
+        _scoreKeeper.ResetScore();
         SceneManager.LoadScene("Level 1");
     }
 
@@ -27,7 +35,7 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator WaitAndLoad(string sceneName, float delay)
+    private IEnumerator WaitAndLoad(string sceneName, float delay)
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);

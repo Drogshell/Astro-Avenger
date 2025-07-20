@@ -1,4 +1,3 @@
-using System;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -26,16 +25,15 @@ public class Health : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Check to see if the other object is a Damage type object
-        Damage damageDealer = other.GetComponent<Damage>();
+        var damageDealer = other.GetComponent<Damage>();
 
-        if (damageDealer != null)
-        {
-            TakeDamage(damageDealer.GetDamage());
-            PlayHitEffect();
-            _audioPlayer.PlayDamageClip();
-            ShakeCamera();
-            damageDealer.Hit();
-        }
+        if (damageDealer == null) return;
+        
+        TakeDamage(damageDealer.GetDamage());
+        PlayHitEffect();
+        _audioPlayer.PlayDamageClip();
+        ShakeCamera();
+        damageDealer.Hit();
     }
 
     private void ShakeCamera()
@@ -70,11 +68,10 @@ public class Health : MonoBehaviour
 
     private void PlayHitEffect()
     {
-        if (hitEffect != null)
-        {
-            ParticleSystem instance = Instantiate(hitEffect, transform.position, quaternion.identity);
-            Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
-        }
+        if (hitEffect == null) return;
+        
+        var instance = Instantiate(hitEffect, transform.position, quaternion.identity);
+        Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
     }
 
     public int GetCurrentHealth()

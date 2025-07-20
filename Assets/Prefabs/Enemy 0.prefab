@@ -184,8 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  health: 40
-  score: 40
+  health: 30
+  score: 35
   hitEffect: {fileID: 6968937447889893936, guid: cf2426ca969b3904b843cea2d5db5a45, type: 3}
   applyCameraShake: 0
 --- !u!114 &7543290721869854324
